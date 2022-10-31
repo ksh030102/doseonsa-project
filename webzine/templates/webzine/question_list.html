@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <h1 class="border-bottom py-2">질문 리스트 보기</h1>
+    <table class="table">
+        <thead>
+        <tr class="thead-dark">
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if question_list %}
+        {% for question in question_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+            <a href="{% url 'webzine:question_detail' question.id %}">{{ question.subject }}</a>
+            </td>
+            <td>{{ question.create_date }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">질문이 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <ul>
+        {% if question_list.has_previous %}
+        <a href="?page={{ question_list.previous_page_number}}">이전</a>
+        {% endif %}
+
+        {% for page_number in question_list.paginator.page_range %}
+        {% if question_list.number|add:5 >= page_number and page_number >= question_list.number|add:-5 %}
+        
+        <!-- 현재 페이지 번호랑 같다면 스타일을 다르게 줄 수 있다. -->
+        {% if page_number == question_list.number %}
+        <li>
+            <a href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="?page={{page_number}}">{{page_number}}</a>
+        </li>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        {% if question_list.has_next %}
+        <a href="?page={{ question_list.next_page_number }}">다음</a>
+        {% endif %}
+        
+    </ul>
+    <a href="{% url 'webzine:question_create' %}">질문 등록하기</a>
+</div>
+{% endblock %}

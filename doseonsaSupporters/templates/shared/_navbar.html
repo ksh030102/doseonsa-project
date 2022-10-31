@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+</head>
+</html>
+
+<ul class="nav">
+    <li>
+        <a class="q_list" href="{% url 'webzine:webzine' %}">질문목록으로 가기</a>
+    </li>
+    <li>
+        <a class="not" tabindex="-1" aria-disabled="true" href="#">Link</a>
+    </li>
+    <li>
+        <a class="webzine_move" href="{% url 'webzine:question_list'%}">리스트로 이동해요!(과월호 보기)</a>
+    </li>
+    <li>
+        <a class="not" href="#" tabindex="-1" aria-disabled="true">웹진 신청</a>
+    </li>
+</ul>
+<a href="{% url 'main'%}">
+    <img src="{% static 'images/도선사 로고.png' %}" alt="안보이지만 사자야">
+</a>
+{% if user.is_authenticated %} 
+    <a href="{% url 'users:logout' %}"> {{user.username }}로그아웃</a>
+    <span>||</span>
+{% else %}
+    <a href="{% url 'users:login' %}">로그인</a>
+    <span>||</span>
+    <a href="{% url 'users:signup' %}">회원가입</a>
+{% endif %}
